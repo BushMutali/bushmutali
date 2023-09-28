@@ -1,0 +1,51 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        <h1>Web Developer</h1>
+        <p>Unlock the potential of your online presence with tailored web solutions crafted by a professional, with a solid foundation in Business Information Technology from Mt. Kenya University, coupled with extensive expertise in PHP, Python, HTML5, CSS, and JavaScript.</p>
+        {% if user.is_authenticated %}
+        <a href="#services" class="btn explore">explore &rightarrow;</a>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <img src="{% static 'images/img1.png'%}" id="">
+    </div>
+</section>
+
+<main id="services">
+    <h2>services</h2>
+    <div class="services">
+        <h1>Backend Brilliance</h1>
+        <span>Harness the power of <i class="fa-brands fa-php"></i> PHP and <i class="fa-brands fa-python"></i> Python to build robust, scalable, and secure backends that drive your web applications with precision and efficiency.</span>
+
+        <ul>
+            <li><i class="fa-solid fa-database"></i> Database management: <span>Proficient in designing and optimizing database structures, ensuring efficient data retrieval and storage. Skilled in working with relational databases such as MySQL</span></li>
+
+            <li><i class="fa-solid fa-code"></i> Server-Side Scripting: <span>Adept at writing clean, maintainable code in PHP and Python to handle requests, process data, and communicate with databases. My code is structured for scalability and security</span></li>
+
+            <li><i class="fa-solid fa-play"></i> Error Handling and Debugging: <span>Skillful in identifying, troubleshooting, and resolving backend issues efficiently, minimizing downtime and ensuring uninterrupted service.</span></li>
+        </ul>
+        
+    </div>
+
+    <div class="services" >
+        <h1>Frontend Finnesse</h1>
+        <span>Elevate user experiences with captivating HTML5, CSS, and JavaScript implementations that seamlessly marry form and function</span>
+
+        <ul>
+            <li><i class="fa-brands fa-html5"></i> HTML5 Markup: <span>Proficient in creating semantic and well-structured HTML code, ensuring accessibility and optimal search engine indexing. I prioritize clean and efficient markup for seamless integration with backend systems.</span></li>
+
+            <li><i class="fa-brands fa-css3"></i> CSS Styling: <span>Adept at applying CSS styles to transform static HTML elements into visually appealing layouts. I have a keen eye for design and pay attention to details, ensuring consistency and a polished look across all pages.</span></li>
+
+            <li><i class="fa-brands fa-square-js"></i> JavaScript Proficiency: <span>Extensive experience in leveraging JavaScript to add interactivity and dynamic functionality to web applications. I am well-versed in DOM manipulation, event handling, and asynchronous programming to create seamless user experiences.</span></li>
+        </ul>
+        
+    </div>
+</main>
+
+
+{% endblock content %}

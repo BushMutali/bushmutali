@@ -1,0 +1,21 @@
+{% extends "study-room.html" %}
+
+{% block content %}
+    <div>
+        <h1>Browse topics</h1>
+        <ul>
+            <li>All</li>
+            {% for topic  in topics %}
+            <li>{{topic.name}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <div>
+            {% for room  in rooms %}
+            <h2>{{room.id}} -- <a href="{% url 'room' room.id%}">{{room.name}}</a></h2>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+

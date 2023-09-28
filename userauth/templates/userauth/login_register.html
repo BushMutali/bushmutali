@@ -1,0 +1,74 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+{% if page == 'login' %}
+<div class="login-container">
+    <div class="form-container">
+        <h1>Sign In</h1>
+        {% if messages %} 
+        {% for message in messages %}
+        <h5>{{message}}</h5>
+        {% endfor %}
+        {% endif %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-input">
+                <label>Email</label>
+                <input type="email" placeholder="example@mail.com" name="email">
+            </div>
+            <div class="form-input">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <input type="submit" value="Login">
+        </form>
+        <a href="{% url 'reset_password' %}">Forgot password?</a>
+        <div class="form-options">
+            <div class="external-auth">
+                <span>Sign in with</span>
+                <a href=""><i class="fa-brands fa-google"></i></a>
+                <a href=""><i class="fa-brands fa-facebook"></i></a>
+                <a href=""><i class="fa-brands fa-discord"></i></a>
+                <a href=""><i class="fa-brands fa-twitch"></i></a>
+            </div>
+            <h3>Don't have an account? <a href="{% url 'register' %}">sign up</a></h3>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="login-container">
+    <div class="form-container">
+        <h1>Sign Up</h1>
+        {% if messages %} 
+        <h5>{% for message in messages %}
+            {{message}}
+            {% endfor %}
+        </h5>
+        {% endif %}
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="form-input">
+                <label>{{field.label}}</label>
+                {{field}}
+            </div>
+            {% endfor %}
+            <input type="submit" value="Sign Up">
+        </form>
+        <div class="form-options">
+            <div class="external-auth">
+                <span>Sign up with</span>
+                <a href=""><i class="fa-brands fa-google"></i></a>
+                <a href=""><i class="fa-brands fa-facebook"></i></a>
+                <a href=""><i class="fa-brands fa-discord"></i></a>
+                <a href=""><i class="fa-brands fa-twitch"></i></a>
+            </div>
+            <h3>Already have an account? <a href="{% url 'login' %}">sign in</a></h3>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
