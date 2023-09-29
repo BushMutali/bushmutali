@@ -1,21 +1,42 @@
 {% extends "study-room.html" %}
 
 {% block content %}
+<style>
+    .home-container {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+</style>
+<div class="home-container">
     <div>
         <h1>Browse topics</h1>
         <ul>
-            <li>All</li>
+            <li><a href="{% url "study-room" %}">All</a></li>
             {% for topic  in topics %}
-            <li>{{topic.name}}</li>
+            <li><a href="{% url "study-room" %}?search={{topic.name}}">{{topic.name}}</a></li>
             {% endfor %}
         </ul>
     </div>
+
     <div>
+        <h5>{% if room_count == 0 %}
+            No rooms available
+            {% elif room_count == 1 %}
+            {{room_count}} room available
+            {% else %}
+            {{room_count}} rooms available
+            {% endif %}</h5>
+        <a href="{% url 'create-room' %}">create room</a>
         <div>
             {% for room  in rooms %}
+            <a href="{% url 'update-room' room.id %}">edit</a>
+            <a href="{% url 'delete-room' room.id %}">delete</a>
+            <span><a href="">@{{room.host.username}}</a></span>
             <h2>{{room.id}} -- <a href="{% url 'room' room.id%}">{{room.name}}</a></h2>
             {% endfor %}
         </div>
     </div>
+</div>
+
 {% endblock content %}
 

@@ -1,0 +1,16 @@
+{% extends "study-room.html" %}
+{% block content %}
+<div class="login-container">
+    <div class="form-container">
+        <h1>Create/Update Room</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-input">
+            {{form.as_p}}
+        </div>
+        
+        <input type="submit" value="Submit">
+    </form>
+</div>
+</div>
+{% endblock content %}

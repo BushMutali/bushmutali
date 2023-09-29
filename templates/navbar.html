@@ -1,10 +1,13 @@
 {% load static %}
 <button class="nav-btn" id="nav-btn">&uparrow;</button>
 <header>
-    {% if page == 'study-room' %}
+    {% if page == 'study-room' or page == 'login' or page == 'register' %}
     <div class="logo">
-        
+        <img src="{% static 'images/icon3.png' %}" alt="">
         <span>Developers Community</span>
+        <form action="{% url "study-room" %}" method="GET">
+            <input type="text" name="search" placeholder="Search room, topic..">
+        </form>
     </div>
 
     <div class="navigation-links">

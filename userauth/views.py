@@ -37,6 +37,7 @@ def user_logout(request):
     return redirect(request.META.get('HTTP_REFERER'))
 
 def user_register(request):
+    page = 'register'
     form = MyUserCreationForm()
 
     if request.method == 'POST':
@@ -50,7 +51,7 @@ def user_register(request):
         else:
             messages.error(request, 'Fill in the fields correctly')
         
-    context = {'form': form}
+    context = {'form': form, 'page': page}
     return render(request, 'userauth/login_register.html', context)
 
 @login_required(login_url='home')

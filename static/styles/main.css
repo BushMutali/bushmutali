@@ -492,14 +492,23 @@ footer .logo span{
     padding: 0 5px;
     font-weight: 600;
 }
-
-.form-input input{
+.form-input textarea{
+    resize: none;
+    height: 100px;
+    width: 100%;
+    outline: none;
+    border: 1px solid var(--text-alt);
+    border-radius: 5px;
+    padding: 0 1rem;
+}
+.form-input input, select{
     height: 45px;
     width: 100%;
     outline: none;
     border: 1px solid var(--text-alt);
     border-radius: 5px;
     padding: 0 1rem;
+    background: none;
 }
 
 form input[type="submit"]{
