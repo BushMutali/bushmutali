@@ -28,8 +28,18 @@ def study_room(request):
 def room(request, pk):
     page = 'study-room'
     room = Room.objects.get(id=pk)
-    messages = Message.objects.all()
-    context = {'page': page, 'room': room, 'messages': messages}
+    room_messages = room.message_set.all().order_by('-created')
+    
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user=request.user,
+            room=room,
+            body=request.POST.get('body')
+        )
+        return redirect('room', pk=room.id)
+    
+    
+    context = {'page': page, 'room': room, 'room_messages': room_messages}
     return render(request, 'community/room.html', context)
 
 @login_required(login_url='login')

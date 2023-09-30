@@ -10,6 +10,9 @@ def user_login(request):
     page = 'login'
     
     if request.user.is_authenticated:
+        return redirect('study-room')
+    
+    if request.user.is_authenticated:
         return redirect('home')
     
     if request.method == 'POST':

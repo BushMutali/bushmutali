@@ -5,10 +5,12 @@
         <h1>Create/Update Room</h1>
     <form action="" method="POST">
         {% csrf_token %}
+        {% for field in form %}
         <div class="form-input">
-            {{form}}
+            <label>{{field.label}}</label>
+            {{field}}
         </div>
-        
+        {% endfor %}
         <input type="submit" value="Submit">
     </form>
 </div>
