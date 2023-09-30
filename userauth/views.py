@@ -25,7 +25,7 @@ def user_login(request):
         
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('study-room')
         else:
             messages.error(request, 'Email or Password does not exist')
         

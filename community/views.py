@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.db.models import Q
 from .models import Topic, Room, Message
 from userauth.models import User
@@ -30,6 +32,7 @@ def room(request, pk):
     context = {'page': page, 'room': room, 'messages': messages}
     return render(request, 'community/room.html', context)
 
+@login_required(login_url='login')
 def createRoom(request):
     page = 'study-room'
     form = RoomForm()
@@ -42,11 +45,14 @@ def createRoom(request):
     context = {'form': form, 'page': page}
     return render(request, 'community/room_form.html', context)
 
-
+@login_required(login_url='login')
 def updateRoom(request, pk):
     page = 'study-room'
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
+    
+    if request.user != room.host:
+        return HttpResponse('You are not allowed here')
     
     if request.method == 'POST':
         form = RoomForm(request.POST, instance=room)
@@ -57,11 +63,15 @@ def updateRoom(request, pk):
     context = {'form': form, 'page': page}
     return render(request, 'community/room_form.html', context)
 
-
+@login_required(login_url='login')
 def deleteRoom(request, pk):
     page = 'study-room'
-    
     room = Room.objects.get(id=pk)
+    
+    if request.user != room.host:
+        return HttpResponse('You are not allowed here')
+    
+    
     if request.method == 'POST':
         room.delete()
         return redirect('study-room')
