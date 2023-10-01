@@ -1,0 +1,10 @@
+<h1>browse topics</h1>
+<nav>
+    <ul>
+        <li><a href="{% url "study-room" %}">all</a><span>{{topics.count}}</span></li>
+        {% for topic  in topics %}
+        <li><a href="{% url "study-room" %}?search={{topic.name}}">{{topic.name}}</a><span>{{topic.room_set.all.count}}</span></li>
+        {% endfor %}
+        <li><a href="">more <i class="fa-solid fa-chevron-down fa-beat-fade"></i></a></li>
+    </ul>
+</nav>

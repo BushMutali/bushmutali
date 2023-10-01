@@ -1,23 +1,91 @@
 {% extends "study-room.html" %}
-
 {% block content %}
-    <div>
-        <a href="">@{{room.host.username}}</a>
-        <h1>{{room.name}}</h1>
-        <h1>{{room.topic}}</h1>
-        <span>{{room.description}}</span>
-        <h2>messages</h2>
-        {% for message in room_messages %}
-        <p><a href="">@{{message.user.username}} </a>{{message.body}} {{message.created|timesince}} ago</p>
-        <hr>
-        {% endfor %}
+<section class="community-container">
+    <div class="room">
+    <div class="room-container scroll">
+        <nav>
+            <ul>
+                <a href="{% url "study-room" %}"><i class="fa-solid fa-arrow-left"></i></a>
+                <h1>study room</h1>
+            </ul>
+            <ul>
+                {% if request.user == room.host %}
+                <a href="{% url "update-room" room.id %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a href="{% url "delete-room" room.id%}"><i class="fa-solid fa-trash"></i></a>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <div class="room-header scroll">
+            <div class="room-title">
+                <h1>{{room.name}}</h1>
+                <h2>{{room.created|timesince}} ago</h2>
+            </div>
+            <span>hosted by</span>
+            <div class="room-host">
+                <div class="img">
+                    <img src="{{room.host.avatar.url}}" width="30px" height="30px">
+                </div>
+                <a href="">@{{room.host.username}}</a>
+            </div>
+            <p>{{room.description}}</p>
+            <h5>{{room.topic}}</h5>
+        </div>
+
+        <div class="room-conversation">
+            <div class="threads scroll">
+                {% for message in room_messages %}
+            <div class="thread">
+                <div class="thread-top">
+                    <div class="thread-author">
+                        <a href="" class="thread-authorInfo">
+                            <div class="avatar thread-img">
+                                <img src="{{message.user.avatar.url}}" width="30px" height="30px"/>
+                            </div>
+                        <span>@{{message.user.username}}</span>
+                        </a>
+                        <span class="thread-date">{{message.created|timesince}} ago</span>
+                    </div>
+                    {% if request.user == message.user %}
+                    <div class="thread-delete">
+                        <a href="{% url "delete-message" message.id %}"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="thread-details">
+                {{message.body}}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
     </div>
     {% if request.user.is_authenticated %}
-    <div class="comment-form">
+    <div class="room-message">
         <form action="" method="POST">
             {% csrf_token %}
-            <input type="text" name="body" placeholder="Write your message here..."/>
+            <input name="body" placeholder="Write your message here..." />
         </form>
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
+
+    <div class="participants-container">
+        <div class="participants-header">
+            <h4>Participants</h4>
+            <h5>({{room.participants.count}}) joined</h5>
+        </div>
+        <div class="participants scroll">
+            {% for user in participants %}
+            <div class="participant">
+                <div class="img">
+                    <img src="{{user.avatar.url}}" width="40px" height="40px"> 
+                </div>
+            <a href="">@{{user.username}}</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock content %}
+

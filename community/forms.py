@@ -4,4 +4,6 @@ from .models import Room
 class RoomForm(ModelForm):
     class Meta:
         model = Room
-        fields = ['host', 'topic', 'name', 'description']
+        fields = '__all__'
+        exclude  = ['host', 'participants']
+        

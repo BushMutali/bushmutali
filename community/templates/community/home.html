@@ -1,44 +1,33 @@
 {% extends "study-room.html" %}
 
 {% block content %}
-<style>
-    .home-container {
-        display: grid;
-        grid-template-columns: 1fr 3fr;
-    }
-</style>
-<div class="home-container">
-    <div>
-        <h1>Browse topics</h1>
-        <ul>
-            <li><a href="{% url "study-room" %}">All</a></li>
-            {% for topic  in topics %}
-            <li><a href="{% url "study-room" %}?search={{topic.name}}">{{topic.name}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <div>
-        <h5>{% if room_count == 0 %}
-            No rooms available
-            {% elif room_count == 1 %}
-            {{room_count}} room available
-            {% else %}
-            {{room_count}} rooms available
-            {% endif %}</h5>
-        <a href="{% url 'create-room' %}">create room</a>
-        <div>
-            {% for room  in rooms %}
-            {% if request.user == room.host %}
-            <a href="{% url 'update-room' room.id %}">edit</a>
-            <a href="{% url 'delete-room' room.id %}">delete</a>
-            {% endif %}
-            <span><a href="">@{{room.host.username}}</a></span>
-            <h2>{{room.id}} -- <a href="{% url 'room' room.id%}">{{room.name}}</a></h2>
-            {% endfor %}
+<div class="main-room-container">
+    <section class="community-home-container">
+        <div class="topics-container">
+            {% include "community/topics_component.html" %}
         </div>
+            <div class="rooms">
+                <nav>
+                    <ul>
+                        <h1>study room</h1>
+                        <h5>{% if room_count == 0 %}
+                            No rooms available
+                            {% elif room_count == 1 %}
+                            {{room_count}} room available
+                            {% else %}
+                            {{room_count}} rooms available
+                            {% endif %}</h5>
+                    </ul>
+                    <ul>
+                        <a href="{% url "create-room" %}"><i class="fa-solid fa-plus fa-beat-fade"></i></i>create room</a>
+                    </ul>
+                </nav>
+                <div class="main-room-container">
+                    <!-- --start rooms-- -->
+                    {% include "community/feed_component.html" %}
+                </div>
+            </div>
+    </section>
     </div>
-</div>
-
 {% endblock content %}
 

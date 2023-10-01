@@ -29,6 +29,7 @@ def room(request, pk):
     page = 'study-room'
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all().order_by('-created')
+    participants = room.participants.all()
     
     if request.method == 'POST':
         message = Message.objects.create(
@@ -36,20 +37,30 @@ def room(request, pk):
             room=room,
             body=request.POST.get('body')
         )
+        room.participants.add(request.user)
         return redirect('room', pk=room.id)
     
     
-    context = {'page': page, 'room': room, 'room_messages': room_messages}
+    context = {'page': page, 'room': room, 'room_messages': room_messages, 'participants': participants}
     return render(request, 'community/room.html', context)
 
-@login_required(login_url='login')
+def user_profile(request, pk):
+    page = 'study-room'
+    user = User.objects.get(id=pk)
+    topics = Topic.objects.all()
+    context = {'user': user, 'page': page, 'topics': topics} 
+    return render(request, 'community/profile.html', context)
+
+@login_required(login_url='login') 
 def createRoom(request):
     page = 'study-room'
     form = RoomForm()
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
-            form.save()
+            room = form.save(commit=False)
+            room.host = request.user
+            room.save()
             return redirect('study-room')
         
     context = {'form': form, 'page': page}
@@ -88,3 +99,20 @@ def deleteRoom(request, pk):
     
     context = {'page': page, 'obj': room}
     return render(request, 'community/delete.html', context)
+
+
+@login_required(login_url='login')
+def deleteMessage(request, pk):
+    page = 'study-room'
+    message = Message.objects.get(id=pk)
+    
+    if request.user != message.user:
+        return HttpResponse('You are not allowed here')
+    
+    
+    if request.method == 'POST':
+        message.delete()
+        return redirect('study-room')
+    
+    context = {'page': page, 'obj': message}
+    return render(request, 'community/delete.html', context) 
